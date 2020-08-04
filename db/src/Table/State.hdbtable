@@ -1,0 +1,4 @@
+column table State(
+	State nvarchar(2) primary key,
+	Name nvarchar(50)
+);

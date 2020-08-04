@@ -1,0 +1,108 @@
+{
+	"format_version": 1,
+	"imports": [{
+		"target_table": "SALESORDER",
+		"source_data": {
+			"data_type": "CSV",
+			"file_name": "SalesOrder.csv",
+			"has_header": true,
+			"dialect": "HANA",
+			"type_config": {
+				"delimiter": ";"
+			}
+		},
+		"import_settings": {
+         	"include_filter" : [ ],		
+			"import_columns": ["CLIENT", "ORDERID","CUSTOMERID","AMOUNT"]
+		},
+		"column_mappings": {
+			"CLIENT": 1, 
+			"ORDERID": 2,
+			"CUSTOMERID": 3,
+			"AMOUNT": 4
+		}
+	},
+	{
+		"target_table": "CUSTOMER",
+		"source_data": {
+			"data_type": "CSV",
+			"file_name": "Customer.csv",
+			"has_header": true,
+			"dialect": "HANA",
+			"type_config": {
+				"delimiter": ";"
+			}
+		},
+		"import_settings": {
+	     	"include_filter" : [ ],		
+			"import_columns": ["CLIENT", "CUSTOMERID","NAME", "STATE", "AGE"]
+		},
+		"column_mappings": {
+			"CLIENT": 1, 
+			"CUSTOMERID": 2,
+			"NAME": 3,
+			"STATE": 4,
+			"AGE": 5
+		}
+	},
+	{
+		"target_table": "STATE",
+		"source_data": {
+			"data_type": "CSV",
+			"file_name": "State.csv",
+			"has_header": true,
+			"dialect": "HANA",
+			"type_config": {
+				"delimiter": ";"
+			}
+		},
+		"import_settings": {
+	     	"include_filter" : [ ],		
+			"import_columns": ["STATE","NAME"]
+		},
+		"column_mappings": {
+			"STATE": 1,
+			"NAME": 2
+		}
+	},
+	{
+		"target_table": "DOM_NAME",
+		"source_data": {
+			"data_type": "CSV",
+			"file_name": "dom_name.csv",
+			"has_header": true,
+			"dialect": "HANA",
+			"type_config": {
+				"delimiter": ";"
+			}
+		},
+		"import_settings": {
+	     	"include_filter" : [ ],		
+			"import_columns": ["DOMVALUE_L"]
+		},
+		"column_mappings": {
+			"DOMVALUE_L": 1
+		}
+	},
+	{
+		"target_table": "DOM_NAMET",
+		"source_data": {
+			"data_type": "CSV",
+			"file_name": "dom_namet.csv",
+			"has_header": true,
+			"dialect": "HANA",
+			"type_config": {
+				"delimiter": ";"
+			}
+		},
+		"import_settings": {
+	     	"include_filter" : [ ],		
+			"import_columns": ["DDLANGUAGE", "DOMVALUE_L", "DDTEXT"]
+		},
+		"column_mappings": {
+			"DDLANGUAGE": 1,
+			"DOMVALUE_L": 2,
+			"DDTEXT": 3
+		}
+	}]
+}

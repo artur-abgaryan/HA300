@@ -1,0 +1,38 @@
+PROCEDURE "Unit9_FullTextSearch"( )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+
+	SELECT
+		SCORE( ) AS score,
+--		HIGHLIGHTED("DDTEXT"),
+--		SNIPPETS("DDTEXT"),
+--		WHY_FOUND(),
+		"DOMVALUE_L",
+		"DDTEXT"
+	FROM 
+		"AV_Dom_name"
+	WHERE
+		CONTAINS("DDTEXT", 'Том', FUZZY(0.05))
+	ORDER BY
+		score DESC;
+/*		
+	SELECT
+		t.rank,
+		t.term,
+		t.document_frequence,
+		t.score
+	FROM
+		TM_GET_SUGGESTED_TERMS( 
+			TERM 'Том'
+			SEARCH DISTINCT ddtext
+				FROM dom_namet
+			RETURN TOP 5
+		) AS t
+	WHERE
+		t.score > 0.1
+		AND t.document_frequence > 5;
+*/
+END

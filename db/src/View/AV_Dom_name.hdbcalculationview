@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="AV_Dom_name" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="AV_Dom_name"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="DOM_NAME">
+    <resourceUri>DOM_NAME</resourceUri>
+  </DataSource>
+  <DataSource id="DOM_NAMET">
+    <resourceUri>DOM_NAMET</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="C1_1" joinType="textTable" languageColumn="DDLANGUAGE">
+    <viewAttributes>
+      <viewAttribute id="DOMVALUE_L"/>
+      <viewAttribute id="DDTEXT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="DOM_NAME">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOMVALUE_L" source="DOMVALUE_L"/>
+    </input>
+    <input node="DOM_NAMET">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DDTEXT" source="DDTEXT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOMVALUE_L" source="DOMVALUE_L"/>
+    </input>
+    <joinAttribute name="DOMVALUE_L"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Join_1">
+  <attributes>
+    <attribute id="DOMVALUE_L" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Domen value"/>
+      <keyMapping columnObjectName="Join_1" columnName="DOMVALUE_L"/>
+    </attribute>
+    <attribute id="DDTEXT" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DDTEXT"/>
+      <keyMapping columnObjectName="Join_1" columnName="DDTEXT"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="199"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="DOM_NAME" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="159.154296875"/>
+    </shape>
+    <shape modelObjectName="DOM_NAMET" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="163.01611328125"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

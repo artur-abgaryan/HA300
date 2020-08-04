@@ -1,0 +1,28 @@
+{
+  "role": {
+    "name": "Purches#",
+    "object_privileges": [
+      {
+        "name": "CV_Purches",
+        "type": "VIEW",
+        "privileges": [
+          "SELECT"
+        ],
+        "privileges_with_grant_option": [
+          "SELECT"
+        ]
+      }
+    ],
+    "schema_privileges": [
+      {
+        "reference": "HA300_1",
+        "privileges": [
+          "SELECT"
+        ],
+        "privileges_with_grant_option": [
+          "SELECT"
+        ]
+      }
+    ]
+  }
+}

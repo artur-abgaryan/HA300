@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Privilege:analyticPrivilege xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Privilege="http://www.sap.com/ndb/BiModelPrivilege.ecore" id="AP_Sales::AP_Purches" privilegeType="SQL_ANALYTIC_PRIVILEGE" schemaVersion="1.1">
+<descriptions defaultDescription="AP_Purches"/>
+<securedModels>
+  <modelUri>CV_Purches</modelUri>
+</securedModels>
+<conditionProcedureName>Unit7_Privilege</conditionProcedureName>
+</Privilege:analyticPrivilege>

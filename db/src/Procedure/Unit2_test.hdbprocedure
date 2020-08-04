@@ -1,0 +1,15 @@
+PROCEDURE "Unit2_test"( )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+	--create synonym dummy for SYS.DUMMY;
+	-- $$client$$ sys var for calc view
+
+	SELECT
+		SESSION_CONTEXT('CLIENT')		AS SessionClient,
+		SESSION_CONTEXT('LOCALE')		AS SessionLocale,
+		SESSION_CONTEXT('LOCALE_SAP')	AS SessionLocaleSAP
+	FROM dummy;
+END

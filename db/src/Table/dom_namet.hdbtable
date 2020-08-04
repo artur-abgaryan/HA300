@@ -1,0 +1,6 @@
+column table dom_namet(
+	ddlanguage	nchar(1),
+	domvalue_l	nvarchar(50),
+	ddtext		nvarchar(500),
+	primary key(ddlanguage, domvalue_l)
+);

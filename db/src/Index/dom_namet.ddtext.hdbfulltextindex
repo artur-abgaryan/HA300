@@ -1,0 +1,1 @@
+FULLTEXT INDEX "dom_namet.ddtext" ON dom_namet(ddtext) TEXT MINING ON 

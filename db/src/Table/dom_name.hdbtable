@@ -1,0 +1,4 @@
+column table dom_name(
+	domvalue_l nvarchar(50) unique not null comment 'Domen value',
+	primary key(domvalue_l)
+);

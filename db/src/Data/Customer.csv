@@ -1,0 +1,9 @@
+Client;CustomerId;Name;State;Age
+100;1;Werner;MI;10
+100;2;Mark;MI;11
+100;3;Tom;TX;12
+100;4;Bob;TX;13
+200;1;Werner;MI;10
+200;2;Mark;MI;11
+200;3;Tom;TX;12
+200;4;Bob;TX;13

@@ -1,0 +1,7 @@
+column table SalesOrder(
+	Client nchar(3) comment 'Mandant',
+	OrderId integer not null comment 'Order identificator',
+	CustomerId integer comment 'Customer identificator',
+	Amount dec(5,2) comment 'Amount',
+	primary key(Client, OrderId)
+);

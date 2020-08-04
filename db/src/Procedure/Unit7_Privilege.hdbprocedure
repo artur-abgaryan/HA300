@@ -1,0 +1,8 @@
+PROCEDURE "Unit7_Privilege"( out ev_privilege nvarchar(256) )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY DEFINER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+   ev_privilege = '(("CURRENCY" = "RUB"))';
+END

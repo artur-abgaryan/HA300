@@ -1,0 +1,8 @@
+column table Customer(
+	Client nchar(3),
+	CustomerId integer not null,
+	Name nvarchar(50),
+	State nvarchar(2),
+	Age integer,
+	primary key(Client, CustomerId)
+);

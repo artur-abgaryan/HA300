@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" id="AV_Customr" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false" defaultClient="$$client$$">
+<descriptions defaultDescription="AV_Customr"/>
+<localVariables>
+  <variable id="IP_Client" parameter="true">
+    <descriptions defaultDescription="Mandant"/>
+    <variableProperties datatype="NCHAR" length="3" scale="NaN" mandatory="true" defaultValue="100">
+      <valueDomain type="AttributeValue">
+        <attribute name="CLIENT"/>
+      </valueDomain>
+      <selection multiLine="false" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CUSTOMER" clientColumn="CLIENT">
+    <resourceUri>CUSTOMER</resourceUri>
+  </DataSource>
+  <DataSource id="STATE">
+    <resourceUri>STATE</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="CN_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMERID"/>
+      <viewAttribute id="CUSTOMER_NAME"/>
+      <viewAttribute id="STATE"/>
+      <viewAttribute id="AGE"/>
+      <viewAttribute id="STATE_NAME"/>
+    
+      <viewAttribute id="CLIENT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CUSTOMER">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMERID" source="CUSTOMERID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATE" source="STATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AGE" source="AGE"/>
+    
+      <mapping xsi:type="Calculation:AttributeMapping" target="CLIENT" source="CLIENT"/>
+    </input>
+    <input node="STATE">
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATE_NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATE" source="STATE"/>
+    </input>
+    <joinAttribute name="STATE"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:RankView" id="Rank_1">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMERID"/>
+      <viewAttribute id="CUSTOMER_NAME"/>
+      <viewAttribute id="STATE"/>
+      <viewAttribute id="AGE"/>
+      <viewAttribute id="STATE_NAME"/>
+    
+      <viewAttribute id="CLIENT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_1"/>
+    <rankingFilter type="RANK" offset="0" offsetReference="FRONT" dynamicPartitionAttributes="false">
+      <partitionViewAttributeName id="STATE"/>
+      <order byViewAttributeName="AGE" direction="DESC"/>
+      <rankThreshold>
+        <value>999</value>
+      </rankThreshold>
+      <rankViewAttributeName>Rank</rankViewAttributeName>
+    </rankingFilter>
+  </calculationView>
+</calculationViews>
+<inlineHierarchy xsi:type="Dimension:LeveledHierarchy" id="StateHierarchy" aggregateAllNodes="true" orphanedNodesHandling="ROOT_NODES" rootNodeVisibility="ADD_ROOT_NODE" withRootNode="true" nodeStyle="LEVEL_NAME_ENFORCED" cacheEnabled="true" cycleHandling="BREAKUP" emptyValueIsNull="true">
+  <descriptions defaultDescription="StateHierarchy"/>
+  <unassignedMemberProperties mode="FALSE"/>
+  <levels>
+    <level levelAttribute="STATE" levelType="MDLEVEL_TYPE_REGULAR" order="1" orderAttribute="STATE" sortDirection="ASC"/>
+    <level levelAttribute="CUSTOMERID" levelType="MDLEVEL_TYPE_REGULAR" order="2" orderAttribute="CUSTOMERID" sortDirection="ASC"/>
+  </levels>
+</inlineHierarchy>
+<logicalModel id="Rank_1">
+  <attributes>
+    <attribute id="Rank" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Rank"/>
+      <keyMapping columnObjectName="Rank_1" columnName="Rank"/>
+    </attribute>
+    <attribute id="CUSTOMERID" order="2" displayAttribute="false" attributeHierarchyActive="false" descriptionColumnName="CUSTOMER_NAME">
+      <descriptions defaultDescription="CUSTOMERID"/>
+      <keyMapping columnObjectName="Rank_1" columnName="CUSTOMERID"/>
+    </attribute>
+    <attribute id="CUSTOMER_NAME" order="3" displayAttribute="false" attributeHierarchyActive="false" hidden="true">
+      <descriptions defaultDescription="CUSTOMER_NAME"/>
+      <keyMapping columnObjectName="Rank_1" columnName="CUSTOMER_NAME"/>
+    </attribute>
+    <attribute id="STATE" order="4" displayAttribute="false" attributeHierarchyActive="false" descriptionColumnName="STATE_NAME">
+      <descriptions defaultDescription="STATE"/>
+      <keyMapping columnObjectName="Rank_1" columnName="STATE"/>
+    </attribute>
+    <attribute id="AGE" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="AGE"/>
+      <keyMapping columnObjectName="Rank_1" columnName="AGE"/>
+    </attribute>
+    <attribute id="STATE_NAME" order="6" displayAttribute="false" attributeHierarchyActive="false" hidden="true">
+      <descriptions defaultDescription="STATE_NAME"/>
+      <keyMapping columnObjectName="Rank_1" columnName="STATE_NAME"/>
+    </attribute>
+  
+    <attribute id="CLIENT" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CLIENT"/>
+  
+      <keyMapping columnObjectName="Rank_1" columnName="CLIENT"/>
+  
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="291"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="CUSTOMER" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="159"/>
+    </shape>
+    <shape modelObjectName="STATE" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="119"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Rank_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="198"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

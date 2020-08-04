@@ -1,0 +1,100 @@
+PROCEDURE "Unit1_join"( )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+
+	-- Inner join
+	SELECT
+		*
+	FROM
+		Customer AS c
+		INNER JOIN State AS s ON (s.State = c.State);
+		
+	-- Inner join in a Cube Calculation View
+	SELECT
+		so.OrderId,
+		so.CustomerId,
+		sub.CustomerName,
+		sub.Age,
+		sub.State,
+		sub.StateName,
+		so.Amount
+	FROM
+		SalesOrder AS so
+		INNER JOIN (SELECT
+						c.CustomerId,
+						c.Name AS CustomerName,
+						c.Age,
+						s.State,
+						s.Name AS StateName
+					FROM
+						Customer AS c
+						INNER JOIN State AS s ON (s.State = c.State) ) AS sub ON (sub.CustomerId = so.CustomerId);
+
+	-- Left outer join
+	SELECT
+		c.CustomerId,
+		c.Name AS CustomerName,
+		c.Age,
+		s.State,
+		s.Name AS StateName
+	FROM
+		Customer AS c
+		LEFT OUTER JOIN State AS s ON (s.State = c.State);
+
+	-- Left outer join in a Cube Calculation View
+	SELECT
+		so.OrderId,
+		so.CustomerId,
+		sub.CustomerName,
+		sub.Age,
+		sub.State,
+		sub.StateName,
+		so.Amount
+	FROM
+		SalesOrder AS so
+		LEFT JOIN (SELECT
+						c.CustomerId,
+						c.Name AS CustomerName,
+						c.Age,
+						s.State,
+						s.Name AS StateName
+					FROM
+						Customer AS c
+						LEFT JOIN State AS s ON (s.State = c.State) ) AS sub ON (sub.CustomerId = so.CustomerId);
+
+	-- Right outer join
+	SELECT
+		c.CustomerId,
+		c.Name AS CustomerName,
+		c.Age,
+		s.State,
+		s.Name AS StateName
+	FROM
+		Customer AS c
+		RIGHT OUTER JOIN State AS s ON (s.State = c.State);
+
+	-- Right outer join in a Cube Calculation View
+	SELECT
+		so.OrderId,
+		so.CustomerId,
+		sub.CustomerName,
+		sub.Age,
+		sub.State,
+		sub.StateName,
+		so.Amount
+	FROM
+		SalesOrder AS so
+		RIGHT JOIN (SELECT
+						c.CustomerId,
+						c.Name AS CustomerName,
+						c.Age,
+						s.State,
+						s.Name AS StateName
+					FROM
+						Customer AS c
+						RIGHT JOIN State AS s ON (s.State = c.State) ) AS sub ON (sub.CustomerId = so.CustomerId);
+
+END

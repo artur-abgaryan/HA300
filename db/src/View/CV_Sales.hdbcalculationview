@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:Privilege="http://www.sap.com/ndb/BiModelPrivilege.ecore" id="CV_Sales" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false" defaultClient="$$client$$">
+<descriptions defaultDescription="CV_Sales"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CUSTOMER" clientColumn="CLIENT">
+    <resourceUri>CUSTOMER</resourceUri>
+  </DataSource>
+  <DataSource id="SALESORDER" clientColumn="CLIENT">
+    <resourceUri>SALESORDER</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Customer">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMERID"/>
+      <viewAttribute id="NAME"/>
+    
+      <viewAttribute id="CLIENT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CUSTOMER"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="SalesOrder">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMERID"/>
+      <viewAttribute id="AMOUNT"/>
+    
+      <viewAttribute id="CLIENT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SALESORDER"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Sales" cardinality="CN_N" joinType="referential" referentialDirection="left">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMERID" aggregationType="sum"/>
+      <viewAttribute id="AMOUNT" aggregationType="sum"/>
+      <viewAttribute id="CUSTOMERNAME"/>
+      <viewAttribute id="CLIENT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SalesOrder">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMERID" source="CUSTOMERID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AMOUNT" source="AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CLIENT" source="CLIENT"/>
+    </input>
+    <input node="Customer">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMERNAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMERID" source="CUSTOMERID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CLIENT" source="CLIENT"/>
+    </input>
+    <joinAttribute name="CUSTOMERID"/>
+    <joinAttribute name="CLIENT"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Sales">
+  <attributes>
+    <attribute id="CUSTOMERID" order="1" descriptionColumnName="CUSTOMERNAME" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Customer identificator"/>
+      <keyMapping columnObjectName="Sales" columnName="CUSTOMERID"/>
+    </attribute>
+    <attribute id="CUSTOMERNAME" hidden="true" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NAME"/>
+      <keyMapping columnObjectName="Sales" columnName="CUSTOMERNAME"/>
+    </attribute>
+  
+    <attribute id="CLIENT" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Mandant"/>
+      <keyMapping columnObjectName="Sales" columnName="CLIENT"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="AMOUNT" order="2" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Amount"/>
+      <measureMapping columnObjectName="Sales" columnName="AMOUNT"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures>
+    <measure id="CalcCol" order="5" aggregationType="sum" measureType="simple" datatype="INTEGER" expressionLanguage="COLUMN_ENGINE">
+      <descriptions>
+        <comment text=""/>
+      </descriptions>
+      <formula>rounddown(&quot;AMOUNT&quot;, 0)</formula>
+    
+      </measure>
+  </calculatedMeasures>
+  <restrictedMeasures>
+    <measure id="RestrictedColumn" order="4" aggregationType="sum" datatype="DECIMAL" length="5" scale="2" baseMeasure="AMOUNT">
+      <descriptions defaultDescription=""/>
+      <restriction logicalOperator="AND">
+        <filter xsi:type="Privilege:AttributeFilter" attributeName="CUSTOMERID">
+          <valueFilter xsi:type="AccessControl:SingleValueFilter" including="true" value="1"/>
+        </filter>
+        <attributeName>CUSTOMERID</attributeName>
+      </restriction>
+      <restriction logicalOperator="AND">
+        <filter xsi:type="Privilege:AttributeFilter" attributeName="CUSTOMERID">
+          <valueFilter xsi:type="AccessControl:SingleValueFilter" including="true" value="2"/>
+        </filter>
+        <attributeName>CUSTOMERID</attributeName>
+      </restriction>
+      <restriction logicalOperator="AND">
+        <filter xsi:type="Privilege:AttributeFilter" attributeName="CUSTOMERNAME">
+          <valueFilter xsi:type="AccessControl:SingleValueFilter" including="true" value="Mark"/>
+        </filter>
+        <attributeName>CUSTOMERNAME</attributeName>
+      </restriction>
+      <restriction logicalOperator="AND">
+        <filter xsi:type="Privilege:AttributeFilter" attributeName="CUSTOMERNAME">
+          <valueFilter xsi:type="AccessControl:SingleValueFilter" including="true" value="Werner"/>
+        </filter>
+        <attributeName>CUSTOMERNAME</attributeName>
+      </restriction>
+      </measure>
+  </restrictedMeasures>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Customer" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="260" y="346"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="SalesOrder" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-60" y="348"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Sales" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="211"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="SalesOrder" modelObjectNameSpace="Sales" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="159"/>
+    </shape>
+    <shape modelObjectName="Customer" modelObjectNameSpace="Sales" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="159"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>
